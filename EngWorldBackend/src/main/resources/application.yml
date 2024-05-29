@@ -1,0 +1,38 @@
+spring:
+  main:
+    allow-circular-references: true
+
+  datasource:
+
+    url: jdbc:sqlserver://localhost:1433;databaseName=ENGWORLD;encrypt=true;trustServerCertificate=true;
+    username: sa
+    password: asdfgh2468
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+      properties:
+        hibernate.dialect: org.hibernate.dialect.SQLServer2012Dialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: thenghia25022003@gmail.com
+    password: nlunszlvjzxtliss
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  error:
+    include-message: always
+  servlet:
+    session:
+      store-type: none
