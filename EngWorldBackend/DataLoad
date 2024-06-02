@@ -1,0 +1,71 @@
+
+                                        VOCABULARY
+
+
+    @Autowired
+    @Bean
+    CommandLineRunner commandLineRunner(UserRepository userRepository) {
+        return args -> {
+
+            Optional<VocabularyTopic> optionalTopic = topicRepository.findById(6L);
+            if (!optionalTopic.isPresent()) {
+                System.out.println("Không tìm thấy chủ đề với ID là 6.");
+                return;
+            }
+            VocabularyTopic topic = optionalTopic.get();
+
+            // Danh sách các từ vựng về nghề nghiệp
+            Map<String, String[]> jobVocab = new HashMap<>();
+            jobVocab.put("manager", new String[]{"quản lý", "/ˈmæn.ɪ.dʒər/", "The manager oversees the operations of the company."});
+            jobVocab.put("engineer", new String[]{"kỹ sư", "/ˌen.dʒɪˈnɪr/", "The engineer designs new bridges and roads."});
+            jobVocab.put("teacher", new String[]{"giáo viên", "/ˈtiː.tʃər/", "The teacher educates young minds and inspires curiosity."});
+            jobVocab.put("doctor", new String[]{"bác sĩ", "/ˈdɒk.tər/", "The doctor cares for patients and saves lives."});
+            jobVocab.put("nurse", new String[]{"y tá", "/nɜːs/", "The nurse provides compassionate care to those in need."});
+            jobVocab.put("developer", new String[]{"nhà phát triển", "/dɪˈvel.ə.pər/", "The developer creates innovative software solutions."});
+            jobVocab.put("accountant", new String[]{"kế toán viên", "/əˈkaʊn.tənt/", "The accountant manages financial records and budgets."});
+            jobVocab.put("designer", new String[]{"nhà thiết kế", "/dɪˈzaɪ.nər/", "The designer brings creativity to projects and products."});
+            jobVocab.put("lawyer", new String[]{"luật sư", "/ˈlɔɪ.ər/", "The lawyer provides legal advice and represents clients in court."});
+            jobVocab.put("chef", new String[]{"đầu bếp", "/ʃef/", "The chef prepares delicious meals with precision and flair."});
+            jobVocab.put("salesperson", new String[]{"nhân viên bán hàng", "/ˈseɪlzˌpɜː.sən/", "The salesperson builds relationships with clients and closes deals."});
+            jobVocab.put("pilot", new String[]{"phi công", "/ˈpaɪ.lət/", "The pilot flies airplanes and ensures passenger safety."});
+            jobVocab.put("mechanic", new String[]{"thợ cơ khí", "/məˈkæn.ɪk/", "The mechanic repairs engines and machines."});
+            jobVocab.put("architect", new String[]{"kiến trúc sư", "/ˈɑː.kɪ.tekt/", "The architect designs buildings and structures."});
+            jobVocab.put("electrician", new String[]{"thợ điện", "/ɪˌlekˈtrɪʃ.ən/", "The electrician installs and repairs electrical systems."});
+            jobVocab.put("plumber", new String[]{"thợ ống nước", "/ˈplʌm.bər/", "The plumber fixes pipes and plumbing fixtures."});
+            jobVocab.put("photographer", new String[]{"nhiếp ảnh gia", "/fəˈtɒɡ.rə.fər/", "The photographer captures moments with a camera."});
+            jobVocab.put("writer", new String[]{"nhà văn", "/ˈraɪ.t̬ɚ/", "The writer creates stories and articles."});
+            jobVocab.put("artist", new String[]{"nghệ sĩ", "/ˈɑː.tɪst/", "The artist paints, sculpts, or creates art in various forms."});
+            jobVocab.put("athlete", new String[]{"vận động viên", "/ˈæθ.liːt/", "The athlete trains and competes in sports competitions."});
+            jobVocab.put("veterinarian", new String[]{"bác sĩ thú y", "/ˌvet.ər.əˈner.i.ən/", "The veterinarian cares for animals' health and well-being."});
+            jobVocab.put("scientist", new String[]{"nhà khoa học", "/ˈsaɪ.ən.tɪst/", "The scientist conducts experiments and research."});
+            jobVocab.put("entrepreneur", new String[]{"doanh nhân", "/ˌɒn.trə.prəˈnɜːr/", "The entrepreneur starts and manages businesses."});
+            jobVocab.put("firefighter", new String[]{"lính cứu hỏa", "/ˈfaɪə.faɪ.tər/", "The firefighter extinguishes fires and rescues people."});
+            jobVocab.put("police officer", new String[]{"cảnh sát", "/pəˌliːs ˈɒf.ɪ.sər/", "The police officer enforces laws and maintains public order."});
+            jobVocab.put("real estate agent", new String[]{"môi giới bất động sản", "/rɪəl ɪˈsteɪt ˈeɪ.dʒənt/", "The real estate agent helps people buy and sell properties."});
+            jobVocab.put("consultant", new String[]{"tư vấn", "/kənˈsʌl.tənt/", "The consultant provides expert advice and guidance."});
+            jobVocab.put("barista", new String[]{"người pha chế cà phê", "/bəˈrɪs.tə/", "The barista makes and serves coffee beverages."});
+            jobVocab.put("hairdresser", new String[]{"thợ làm tóc", "/ˈherˌdres.ər/", "The hairdresser cuts, styles, and colors hair."});
+            jobVocab.put("musician", new String[]{"nhạc sĩ", "/mjuːˈzɪʃ.ən/", "The musician plays instruments or sings."});
+
+            // Chọn 30 từ vựng ngẫu nhiên
+            List<Map.Entry<String, String[]>> randomJobVocab = getRandomElements(new ArrayList<>(jobVocab.entrySet()), 30);
+
+            // Tạo và thêm từ vựng vào cơ sở dữ liệu
+            for (Map.Entry<String, String[]> entry : randomJobVocab) {
+                String word = entry.getKey();
+                String[] data = entry.getValue();
+
+                Vocabulary newVocab = Vocabulary.builder()
+                        .vocabWord(word)
+                        .vocabMeaning(data[0])
+                        .vocabIPA(data[1])
+                        .vocabExample(data[2])
+                        .topic(topic)
+                        .build();
+                vocabrepository.save(newVocab);
+            }
+
+            System.out.println("Thêm 30 từ vựng về nghề nghiệp thành công!");
+        };
+    }
+

@@ -8,7 +8,7 @@ B2: Tạo một database có tên bookstore
 Mở SQL Server Management Studio (SSMS)
 Kết nối với SQL Server bằng cách nhập tên máy chủ (Server name) và xác thực (Authentication)
 Trong Object Explorer, click chuột phải vào "Databases" và chọn "New Database..."
-Đặt tên cho database là "bookstore" và nhấn OK để tạo
+Đặt tên cho database là "ENGWORLD" và nhấn OK để tạo
 
 B3: Thay đổi username và password trong file .yml (giả sử bạn đang sử dụng SQL Server Authentication)
 
