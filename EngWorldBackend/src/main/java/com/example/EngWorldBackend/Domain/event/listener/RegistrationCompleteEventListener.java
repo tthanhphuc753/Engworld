@@ -2,7 +2,7 @@ package com.example.EngWorldBackend.Domain.event.listener;
 
 import com.example.EngWorldBackend.Domain.Mailsender.EmailSender;
 import com.example.EngWorldBackend.Domain.Model.User.User;
-import com.example.EngWorldBackend.Domain.UserService.UserServices;
+import com.example.EngWorldBackend.Domain.Service.UserService.UserServices;
 import com.example.EngWorldBackend.Domain.event.RegistrationCompleteEvent;
 import com.example.EngWorldBackend.Persistence.DAO.UserRepository;
 import lombok.RequiredArgsConstructor;

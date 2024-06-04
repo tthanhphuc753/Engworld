@@ -4,7 +4,7 @@ package com.example.EngWorldBackend.Presentation.Controller.UserController;
 import com.example.EngWorldBackend.Domain.Model.User.User;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
-import com.example.EngWorldBackend.Domain.UserService.UserServices;
+import com.example.EngWorldBackend.Domain.Service.UserService.UserServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

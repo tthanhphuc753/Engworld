@@ -1,4 +1,4 @@
-package com.example.EngWorldBackend.Domain.UserService;
+package com.example.EngWorldBackend.Domain.Service.UserService;
 
 import com.example.EngWorldBackend.Domain.Model.User.User;
 import com.example.EngWorldBackend.Domain.Model.User.UserAuthDetails;

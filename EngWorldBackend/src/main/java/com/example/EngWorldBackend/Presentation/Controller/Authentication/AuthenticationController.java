@@ -1,6 +1,6 @@
 package com.example.EngWorldBackend.Presentation.Controller.Authentication;
 
-import com.example.EngWorldBackend.Domain.AuthService.AuthenService;
+import com.example.EngWorldBackend.Domain.Service.AuthService.AuthenService;
 import com.example.EngWorldBackend.Domain.Request.AuthenticationRequest;
 import com.example.EngWorldBackend.Domain.Model.User.User;
 import com.example.EngWorldBackend.Domain.Model.token.VerificationToken;

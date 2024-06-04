@@ -1,4 +1,4 @@
-package com.example.EngWorldBackend.Domain.AuthService;
+package com.example.EngWorldBackend.Domain.Service.AuthService;
 
 import com.example.EngWorldBackend.Domain.Model.token.VerificationToken;
 import com.example.EngWorldBackend.Domain.Request.AuthenticationRequest;

@@ -2,7 +2,7 @@ package com.example.EngWorldBackend.Presentation.Controller.UserController;
 
 import com.example.EngWorldBackend.Domain.Request.RegistrationRequest;
 import com.example.EngWorldBackend.Domain.Model.User.User;
-import com.example.EngWorldBackend.Domain.UserService.UserServices;
+import com.example.EngWorldBackend.Domain.Service.UserService.UserServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

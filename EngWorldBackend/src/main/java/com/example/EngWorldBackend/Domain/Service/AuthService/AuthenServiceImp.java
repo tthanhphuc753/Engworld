@@ -1,4 +1,4 @@
-package com.example.EngWorldBackend.Domain.AuthService;
+package com.example.EngWorldBackend.Domain.Service.AuthService;
 
 
 import com.example.EngWorldBackend.Domain.Model.User.User;
@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.util.Calendar;
 
 @Service
