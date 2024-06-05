@@ -32,4 +32,8 @@ public class Question {
     @JoinColumn(name = "grammarId", nullable = false)
     private Grammar grammarId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exerciseId", nullable = false)
+    private Exercise exerciseId;
+
 }

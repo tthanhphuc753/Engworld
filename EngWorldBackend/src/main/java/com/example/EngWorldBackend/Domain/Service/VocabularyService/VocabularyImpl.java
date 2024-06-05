@@ -61,7 +61,10 @@ public class VocabularyImpl implements VocabularyService {
 
     @Override
     public List<Vocabulary> getAllVocabByTopic(Long topicId) {
-        return vocabRepository.findAllByTopic(topicId);
+
+        VocabularyTopic vocabularyTopic = vocabTopicRepository.findById(topicId)
+                .orElseThrow(() -> new VocabularyTopicNotFoundException("VocabTopic not found with id: " + topicId));
+        return vocabRepository.findByTopic(vocabularyTopic);
     }
 
     private VocabularyTopic addTopicToVocab(VocabularyTopic vocabTopic) {

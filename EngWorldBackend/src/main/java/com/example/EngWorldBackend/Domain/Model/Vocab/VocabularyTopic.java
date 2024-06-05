@@ -1,6 +1,8 @@
 package com.example.EngWorldBackend.Domain.Model.Vocab;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ public class VocabularyTopic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vocabTopicId;
     private String topicName;
+
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vocabulary> vocab;

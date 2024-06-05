@@ -12,7 +12,8 @@ public interface ExerciseService {
 
     Optional<Exercise> getExerciseById(Long exerciseId);
 
-    Exercise updateExercise(Exercise updatedExercise);
+    Exercise updateExerciseById(Long Id, Exercise updatedExercise);
+
 
     void deleteExercise(Long exerciseId);
 }

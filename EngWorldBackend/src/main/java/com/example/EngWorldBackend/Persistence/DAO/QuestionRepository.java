@@ -11,5 +11,6 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question,Long> {
 
     public List<Question> findAllByGrammarId(Long id);
+    public List<Question> findAllByExerciseId(Long id);
 
 }

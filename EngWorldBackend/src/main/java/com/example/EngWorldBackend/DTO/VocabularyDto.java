@@ -1,7 +1,7 @@
 package com.example.EngWorldBackend.DTO;
 
+import com.example.EngWorldBackend.Domain.Model.Vocab.VocabularyTopic;
 import lombok.Data;
-import lombok.Value;
 
 import java.io.Serializable;
 
@@ -15,4 +15,7 @@ public class VocabularyDto implements Serializable {
     String vocabMeaning;
     String vocabIPA;
     String vocabExample;
+    String topicName;
+
+
 }

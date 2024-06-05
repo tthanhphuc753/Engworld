@@ -15,4 +15,5 @@ public class GrammarDto implements Serializable {
     String grammarDes;
     String grammarExample;
     String recipe;
+    String grammarType;
 }

@@ -15,19 +15,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.EngWorldBackend.Domain.Respones.ResponseMessages.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/grammar")
 public class GrammarAdminController {
 
     private final GrammarService grammarService;
-
-    private final String SUCCESS_RESPONSE = "Successfully retrieve data";
-    private final String DELETE_SUCCESS_RESPONSE = "Deleted successfully";
-    private final String NOTFOUND_RESPONSE = "not found with id: ";
-    private final String BAD_REQUEST = "error: ";
+    private final GrammarMapper grammarMapper;
 
     // Grammar
+
+    @PostMapping("/add")
+    public ResponseEntity<ResponseObject> addGrammar(@RequestBody GrammarDto newGrammar) {
+        try {
+            grammarService.createGrammar(grammarMapper.toEntity(newGrammar));
+            return ResponseUtils.buildCreatedResponse(newGrammar, CREATED_SUCCESS_RESPONES);
+        } catch (Exception e) {
+            return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, BAD_REQUEST + e.getMessage());
+        }
+    }
+
     @GetMapping("/get")
     public ResponseEntity<ResponseObject> getAllGrammar() {
         List<Grammar> grammars = grammarService.getAllGrammar();
@@ -41,9 +50,9 @@ public class GrammarAdminController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseObject> deleteGrammarById(@RequestParam long grammarId) {
+    public ResponseEntity<ResponseObject> deleteGrammarById(@RequestParam long id) {
         try {
-            grammarService.deleteGrammarById(grammarId);
+            grammarService.deleteGrammarById(id);
             return ResponseUtils.buildCreatedResponse(null, DELETE_SUCCESS_RESPONSE);
         } catch (Exception e) {
             return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, "Failed to delete data: " + e.getMessage());

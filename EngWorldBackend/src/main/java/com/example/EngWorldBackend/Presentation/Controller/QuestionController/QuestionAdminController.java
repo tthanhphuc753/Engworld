@@ -1,11 +1,14 @@
 package com.example.EngWorldBackend.Presentation.Controller.QuestionController;
 
 import com.example.EngWorldBackend.DTO.QuestionDto;
+import com.example.EngWorldBackend.DTO.VocabularyDto;
 import com.example.EngWorldBackend.Domain.Model.Question;
+import com.example.EngWorldBackend.Domain.Model.Vocab.Vocabulary;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
 import com.example.EngWorldBackend.Domain.Service.QuestionService.QuestionService;
 import com.example.EngWorldBackend.Mapper.QuestionMapper;
+import com.example.EngWorldBackend.Mapper.VocabMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.EngWorldBackend.Domain.Respones.ResponseMessages.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/question")
@@ -22,12 +27,19 @@ public class QuestionAdminController {
 
     private final QuestionService questionService;
 
-    private final String SUCCESS_RESPONSE = "Successfully retrieve data";
-    private final String DELETE_SUCCESS_RESPONSE = "Deleted successfully";
-    private final String NOTFOUND_RESPONSE = "not found with id: ";
-    private final String BAD_REQUEST = "error: ";
 
     // Question
+
+    @PostMapping("/add")
+    public ResponseEntity<ResponseObject> addQuestion(@RequestBody QuestionDto newQuestionDto) {
+        try{
+            questionService.createQuestion(QuestionMapper.toEntity(newQuestionDto));
+            return ResponseUtils.buildCreatedResponse(newQuestionDto,CREATED_SUCCESS_RESPONES);
+        }
+        catch (Exception e){
+            return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST,BAD_REQUEST+e.getMessage());
+        }
+    }
     @GetMapping("/get")
     public ResponseEntity<ResponseObject> getAllQuestions() {
         List<Question> questions = questionService.getAllQuestion();
@@ -70,5 +82,18 @@ public class QuestionAdminController {
         } catch (Exception e) {
             return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, BAD_REQUEST + e.getMessage());
         }
+    }
+
+    @GetMapping("/byEx")
+    public ResponseEntity<ResponseObject> getByEx(@RequestParam long exId)
+    {
+        List<Question> questions = questionService.getQuestionByEx(exId);
+        List<Object> response = new ArrayList<>();
+
+        for (Question question : questions) {
+            QuestionDto questionDto = QuestionMapper.toDTO(question);
+            response.add(questionDto);
+        }
+        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
     }
 }

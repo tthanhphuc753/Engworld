@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.EngWorldBackend.Domain.Respones.ResponseMessages.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/grammartype")
@@ -22,12 +24,19 @@ public class GrammarTypeAdminController {
 
     private final GrammarTypeService grammarTypeService;
 
-    private final String SUCCESS_RESPONSE = "Successfully retrieve data";
-    private final String DELETE_SUCCESS_RESPONSE = "Deleted successfully";
-    private final String NOTFOUND_RESPONSE = "not found with id: ";
-    private final String BAD_REQUEST = "error: ";
 
     // GrammarType
+
+    @PostMapping("/add")
+    public ResponseEntity<ResponseObject> addGrammar(@RequestBody GrammarTypeDto newGrammarType) {
+        try {
+            grammarTypeService.createGrammarType(GrammarTypeMapper.toEntity(newGrammarType));
+            return ResponseUtils.buildCreatedResponse(newGrammarType, CREATED_SUCCESS_RESPONES);
+        } catch (Exception e) {
+            return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, BAD_REQUEST + e.getMessage());
+        }
+    }
+
     @GetMapping("/get")
     public ResponseEntity<ResponseObject> getAllGrammarType() {
         List<GrammarType> grammarTypes = grammarTypeService.getAllGrammarTypes();

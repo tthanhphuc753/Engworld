@@ -59,7 +59,9 @@ public class GrammarServiceImpl implements GrammarService {
 
     @Override
     public List<Grammar> getAllGrammarByType(Long grammarTypeId) {
-        return grammarRepository.findAllByGrammarType(grammarTypeId);
+        GrammarType grammarType = grammarTypeRepository.findById(grammarTypeId)
+                .orElseThrow(() -> new GrammarTypeNotFoundException("GrammarType not found with id: " + grammarTypeId));
+        return grammarRepository.findByGrammarType(grammarType);
     }
 
     private GrammarType addTypeToGrammar(GrammarType grammarType) {

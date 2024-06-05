@@ -1,6 +1,8 @@
 package com.example.EngWorldBackend.Domain.Service.QuestionService;
 
+import com.example.EngWorldBackend.Domain.Model.Exercise;
 import com.example.EngWorldBackend.Domain.Model.Question;
+import com.example.EngWorldBackend.Persistence.DAO.ExerciseRepository;
 import com.example.EngWorldBackend.Persistence.DAO.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,13 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     private final QuestionRepository questionRepository;
+    private final ExerciseRepository exerciseRepository;
 
     @Override
     public Question createQuestion(Question newQuest) {
         return questionRepository.save(newQuest);
     }
+
     @Override
     public Optional<Question> getQuestionById(Long id) {
         return questionRepository.findById(id);
@@ -51,14 +55,30 @@ public class QuestionServiceImpl implements QuestionService {
                     existingQuestion.setOp3(newQuestion.getOp3());
                     existingQuestion.setCorrectAnswer(newQuestion.getCorrectAnswer());
                     existingQuestion.setOp1(newQuestion.getOp1());
+                    existingQuestion.setExerciseId(addQuestionToEx(newQuestion.getExerciseId()));
                     return questionRepository.save(existingQuestion);
                 })
                 .orElseThrow(() -> new IllegalStateException("Question with ID: " + id + " does not exist"));
     }
 
+    private Exercise addQuestionToEx(Exercise exercise) {
+        return exerciseRepository.findById(exercise.getExerciseId())
+                .orElseThrow(() -> new ExerciseNotFoundException("GrammarType not found with id: " + exercise.getExerciseId()));
+    }
+
     @Override
-    public List<Question> getAllQuestionByTopic(Long topicId) {
+    public List<Question> getAllQuestionGrammar(Long topicId) {
         return questionRepository.findAllByGrammarId(topicId);
     }
 
+    @Override
+    public List<Question> getQuestionByEx(long id) {
+        return questionRepository.findAllByExerciseId(id);
+    }
+
+    private static class ExerciseNotFoundException extends RuntimeException {
+        public ExerciseNotFoundException(String message) {
+            super(message);
+        }
+    }
 }

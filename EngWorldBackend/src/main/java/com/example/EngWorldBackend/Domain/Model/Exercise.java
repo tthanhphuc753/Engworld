@@ -3,6 +3,7 @@ package com.example.EngWorldBackend.Domain.Model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,4 +23,7 @@ public class Exercise {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryId", nullable = false)
     private Categories category;
+
+    @OneToMany(mappedBy = "exerciseId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questionList;
 }

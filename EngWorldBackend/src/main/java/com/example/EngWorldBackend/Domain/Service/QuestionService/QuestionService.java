@@ -8,13 +8,15 @@ import java.util.Optional;
 public interface QuestionService {
     Question createQuestion(Question newQuest);
 
-    Optional<Question> getQuestionById(Long id);
+    Optional<Question> getQuestionById(Long Id);
 
     List<Question> getAllQuestion();
 
-    void deleteQuestionById(Long id);
+    void deleteQuestionById(Long Id);
 
-    Question updateQuestionById(Long id, Question newQuestion);
+    Question updateQuestionById(Long Id, Question newQuestion);
 
-    List<Question> getAllQuestionByTopic(Long topicId);
+    List<Question> getAllQuestionGrammar(Long Id);
+
+    List<Question> getQuestionByEx(long Id);
 }

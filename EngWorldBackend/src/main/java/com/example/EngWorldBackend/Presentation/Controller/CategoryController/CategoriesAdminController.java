@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.EngWorldBackend.Domain.Respones.ResponseMessages.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/categories")
@@ -22,12 +24,18 @@ public class CategoriesAdminController {
 
     private final CategoryService categoriesService;
 
-    private final String SUCCESS_RESPONSE = "Successfully retrieve data";
-    private final String DELETE_SUCCESS_RESPONSE = "Deleted successfully";
-    private final String NOTFOUND_RESPONSE = "not found with id: ";
-    private final String BAD_REQUEST = "error: ";
 
     // Categories
+    @PostMapping("/add")
+    public ResponseEntity<ResponseObject> addCategory(@RequestBody CategoriesDto newcate) {
+        try {
+            categoriesService.createCategory(CategoriesMapper.toEntity(newcate));
+            return ResponseUtils.buildCreatedResponse(newcate, CREATED_SUCCESS_RESPONES);
+        } catch (Exception e) {
+            return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, BAD_REQUEST + e.getMessage());
+        }
+    }
+
     @GetMapping("/get")
     public ResponseEntity<ResponseObject> getAllCategories() {
         List<Categories> categories = categoriesService.getAllCategories();
@@ -71,4 +79,6 @@ public class CategoriesAdminController {
             return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, BAD_REQUEST + e.getMessage());
         }
     }
+
+
 }

@@ -30,8 +30,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Exercise updateExercise(Exercise updatedExercise) {
-        Optional<Exercise> optionalExercise = exerciseRepository.findById(updatedExercise.getExerciseId());
+    public Exercise updateExerciseById(Long Id, Exercise updatedExercise) {
+        Optional<Exercise> optionalExercise = exerciseRepository.findById(Id);
         if (optionalExercise.isPresent()) {
             Exercise existingExercise = optionalExercise.get();
             existingExercise.setExerciseTitle(updatedExercise.getExerciseTitle());
@@ -44,6 +44,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             throw new RuntimeException("Exercise not found with id: " + updatedExercise.getExerciseId());
         }
     }
+
 
     @Override
     public void deleteExercise(Long exerciseId) {

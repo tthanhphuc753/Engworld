@@ -12,7 +12,9 @@ public interface CourseService {
 
     Optional<Course> getCourseById(Long courseId);
 
-    Course updateCourse(Course updatedCourse);
+    Course updateCourseById(Long courseId, Course updatedCourse);
 
-    void deleteCourse(Long courseId);
+    void deleteCourseById(Long courseId);
+
+    List<Course> getCourseByCate(Long cateId);
 }
