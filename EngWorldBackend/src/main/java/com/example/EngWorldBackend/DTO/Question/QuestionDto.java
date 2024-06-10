@@ -1,7 +1,6 @@
-package com.example.EngWorldBackend.DTO;
+package com.example.EngWorldBackend.DTO.Question;
 
 import lombok.Data;
-import lombok.Value;
 
 import java.io.Serializable;
 
@@ -11,9 +10,10 @@ import java.io.Serializable;
 @Data
 public class QuestionDto implements Serializable {
     Long questionId;
-    Long questionText;
+    String questionText;
     String correctAnswer;
     String op1;
     String op2;
     String op3;
+    String ExerciseType;
 }

@@ -1,12 +1,14 @@
 package com.example.EngWorldBackend.Presentation.Controller.CategoryController;
 
-import com.example.EngWorldBackend.DTO.CategoriesDto;
+import com.example.EngWorldBackend.DTO.Categories.CategoriesDto;
+import com.example.EngWorldBackend.DTO.Categories.CategoriesResponse;
 import com.example.EngWorldBackend.Domain.Model.Categories;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
 import com.example.EngWorldBackend.Domain.Service.CategoryService.CategoryService;
 import com.example.EngWorldBackend.Mapper.CategoriesMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +39,18 @@ public class CategoriesAdminController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllCategories() {
-        List<Categories> categories = categoriesService.getAllCategories();
-        List<Object> response = new ArrayList<>();
+    public ResponseEntity<ResponseObject> getAllCategories(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        Page<Categories> categories = categoriesService.getAllCategories(pageNumber, pageSize);
+        List<CategoriesDto> response = new ArrayList<>();
 
         for (Categories category : categories) {
             CategoriesDto categoryDto = CategoriesMapper.toDTO(category);
             response.add(categoryDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+        CategoriesResponse categoriesResponse = CategoriesMapper.mapToCategoryResponse(response, categories);
+        return ResponseUtils.buildSuccessResponse(categoriesResponse, SUCCESS_RESPONSE);
     }
 
     @DeleteMapping("/delete")

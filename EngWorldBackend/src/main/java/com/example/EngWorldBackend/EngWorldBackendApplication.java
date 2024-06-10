@@ -1,9 +1,7 @@
 package com.example.EngWorldBackend;
 
-import com.example.EngWorldBackend.Domain.Model.Grammar.Grammar;
-import com.example.EngWorldBackend.Domain.Model.Grammar.GrammarType;
+import com.example.EngWorldBackend.Domain.Model.Question;
 import com.example.EngWorldBackend.Domain.Model.Vocab.Vocabulary;
-import com.example.EngWorldBackend.Domain.Model.Vocab.VocabularyTopic;
 import com.example.EngWorldBackend.Domain.Security.ApplicationConfig;
 import com.example.EngWorldBackend.Persistence.DAO.*;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +11,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @SpringBootApplication
@@ -28,48 +28,42 @@ public class EngWorldBackendApplication {
     private GrammarTypeRepository grammarTypeRepository;
     @Autowired
     private GrammarRepository grammarRepository;
-
+    @Autowired
+    private QuestionRepository questionRepository;
+    @Autowired
+    private VocabularyRepository vocabularyRepository;
+    @Autowired
+    private ExerciseRepository exerciseRepository;
+    private Random random = new Random();
 
     public static void main(String[] args) {
         SpringApplication.run(EngWorldBackendApplication.class, args);
     }
 
-    @Autowired
-    @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository) {
-        return args -> {
 
-//            Optional<VocabularyTopic> optionalTopic = topicRepository.findById(10L);
-//            if (!optionalTopic.isPresent()) {
-//                System.out.println("Không tìm thấy chủ đề với ID là 8.");
-//                return;
+// Đối tượng repository cho các đối tượng khác như Vocabulary, Grammar, Exercise
+
+//    @Bean
+//    CommandLineRunner commandLineRunner() {
+//        return args -> {
+//            List<Question> questions = questionRepository.findAll();
+//
+//            // Lặp qua từng câu hỏi và cập nhật cột vocab_id
+//            for (Question question : questions) {
+//                // Lấy từ vựng tương ứng cho câu hỏi, ví dụ:
+//                Vocabulary vocabulary = vocabularyRepository.findByVocabWord(question.getCorrectAnswer());
+//                // Nếu tìm thấy từ vựng, cập nhật cột vocab_id của câu hỏi
+//                if (vocabulary != null) {
+//                    question.setVocab(vocabulary);
+//                    // Lưu thay đổi vào cơ sở dữ liệu
+//                    questionRepository.save(question);
+//                } else {
+//                    // Xử lý trường hợp không tìm thấy từ vựng
+//                }
 //            }
-//            VocabularyTopic topic = optionalTopic.get();
-//
-//            // Danh sách các từ vựng về nghề nghiệp
-//            Map<String, String[]> fashionVocab = new HashMap<>();
-//
-//
-//            List<Map.Entry<String, String[]>> randomVocab = getRandomElements(new ArrayList<>(fashionVocab.entrySet()), 20);
-//
-//            // Tạo và thêm từ vựng vào cơ sở dữ liệu
-//            for (Map.Entry<String, String[]> entry : randomVocab) {
-//                String word = entry.getKey();
-//                String[] data = entry.getValue();
-//
-//                Vocabulary newVocab = Vocabulary.builder()
-//                        .vocabWord(word)
-//                        .vocabMeaning(data[0])
-//                        .vocabIPA(data[1])
-//                        .vocabExample(data[2])
-//                        .topic(topic)
-//                        .build();
-//                vocabrepository.save(newVocab);
-//            }
-//
-//            System.out.println("Thêm 30 từ vựng về nghề nghiệp thành công!");
-        };
-    }
+//        };
+//    }
+
 
     private <T> List<T> getRandomElements(List<T> originalList, int count) {
         List<T> randomElements = new ArrayList<>();
@@ -80,4 +74,30 @@ public class EngWorldBackendApplication {
         }
         return randomElements;
     }
+
+    private String getRandomWord(List<Vocabulary> vocabularies, String excludeWord) {
+        if (vocabularies == null || vocabularies.isEmpty()) {
+            throw new IllegalArgumentException("Vocabulary list is empty or null");
+        }
+        String randomWord;
+        Random random = new Random();
+        do {
+            randomWord = vocabularies.get(random.nextInt(vocabularies.size())).getVocabWord();
+        } while (randomWord.equals(excludeWord));
+        return randomWord;
+    }
+
+    private Question createQuestion(String questionText, String correctAnswer, List<Vocabulary> vocabularies) {
+        return Question.builder()
+                .questionText(questionText)
+                .correctAnswer(correctAnswer)
+                .op1(getRandomWord(vocabularies, correctAnswer))
+                .op2(getRandomWord(vocabularies, correctAnswer))
+                .op3(getRandomWord(vocabularies, correctAnswer))
+                .vocab(vocabularies.get(0)) // Assuming we can assign any vocabulary to the question
+                .grammar(null)
+                .exercise(exerciseRepository.findById(1l).get())
+                .build();
+    }
+
 }

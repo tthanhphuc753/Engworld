@@ -1,12 +1,14 @@
 package com.example.EngWorldBackend.Presentation.Controller.CourseController;
 
-import com.example.EngWorldBackend.DTO.CourseDto;
+import com.example.EngWorldBackend.DTO.Course.CourseDto;
+import com.example.EngWorldBackend.DTO.Course.CourseResponse;
 import com.example.EngWorldBackend.Domain.Model.Course;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
 import com.example.EngWorldBackend.Domain.Service.CourseService.CourseService;
 import com.example.EngWorldBackend.Mapper.CourseMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,15 +38,19 @@ public class CoursesAdminController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllCourses() {
-        List<Course> courses = courseService.getAllCourses();
-        List<Object> response = new ArrayList<>();
+    public ResponseEntity<ResponseObject> getAllCourses(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        Page<Course> courses = courseService.getAllCourses(pageNumber, pageSize);
+        List<CourseDto> response = new ArrayList<>();
 
         for (Course course : courses) {
             CourseDto courseDto = CourseMapper.toDTO(course);
             response.add(courseDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+
+        CourseResponse courseResponse = CourseMapper.mapToCourseResponse(response, courses);
+        return ResponseUtils.buildSuccessResponse(courseResponse, SUCCESS_RESPONSE);
     }
 
     @DeleteMapping("/delete")
@@ -80,14 +86,17 @@ public class CoursesAdminController {
     }
 
     @GetMapping("/byCate/{id}")
-    public ResponseEntity<ResponseObject> getAllByCate(@PathVariable Long id) {
-        List<Course> courses = courseService.getCourseByCate(id);
-        List<Object> response = new ArrayList<>();
+    public ResponseEntity<ResponseObject> getAllByCate(@PathVariable Long id
+            , @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber
+            , @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        Page<Course> courses = courseService.getCourseByCate(id, pageNumber, pageSize);
+        List<CourseDto> response = new ArrayList<>();
 
         for (Course course : courses) {
             CourseDto courseDto = CourseMapper.toDTO(course);
             response.add(courseDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+        CourseResponse courseResponse = CourseMapper.mapToCourseResponse(response,courses);
+        return ResponseUtils.buildSuccessResponse(courseResponse, SUCCESS_RESPONSE);
     }
 }

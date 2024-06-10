@@ -1,12 +1,14 @@
 package com.example.EngWorldBackend.Presentation.Controller.ExerciseController;
 
-import com.example.EngWorldBackend.DTO.ExerciseDto;
+import com.example.EngWorldBackend.DTO.Exercise.ExerciseDto;
+import com.example.EngWorldBackend.DTO.Exercise.ExerciseResponse;
 import com.example.EngWorldBackend.Domain.Model.Exercise;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
 import com.example.EngWorldBackend.Domain.Service.ExerciseService.ExerciseService;
 import com.example.EngWorldBackend.Mapper.ExerciseMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,15 +38,20 @@ public class ExerciseAdminController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllExercises() {
-        List<Exercise> exercises = exerciseService.getAllExercises();
-        List<Object> response = new ArrayList<>();
+    public ResponseEntity<ResponseObject> getAllExercises(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        Page<Exercise> exercises = exerciseService.getAllExercises(pageNumber, pageSize);
+        List<ExerciseDto> response = new ArrayList<>();
 
         for (Exercise exercise : exercises) {
             ExerciseDto exerciseDto = ExerciseMapper.toDTO(exercise);
             response.add(exerciseDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+
+        ExerciseResponse exerciseResponse = ExerciseMapper.mapToExerciseResponse(response, exercises);
+
+        return ResponseUtils.buildSuccessResponse(exerciseResponse, SUCCESS_RESPONSE);
     }
 
     @DeleteMapping("/delete")

@@ -28,7 +28,7 @@ public class Grammar {
     @JoinColumn(name = "grammarTypeId", nullable = false)
     private GrammarType grammarType;
 
-    @OneToMany(mappedBy = "grammarId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "grammar", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questionList;
 
 }

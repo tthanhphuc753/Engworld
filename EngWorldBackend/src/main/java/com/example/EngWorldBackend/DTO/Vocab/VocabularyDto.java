@@ -1,4 +1,4 @@
-package com.example.EngWorldBackend.DTO;
+package com.example.EngWorldBackend.DTO.Vocab;
 
 import com.example.EngWorldBackend.Domain.Model.Vocab.VocabularyTopic;
 import lombok.Data;

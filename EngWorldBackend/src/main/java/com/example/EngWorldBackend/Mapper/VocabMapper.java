@@ -1,11 +1,15 @@
 package com.example.EngWorldBackend.Mapper;
 
-import com.example.EngWorldBackend.DTO.VocabularyDto;
+import com.example.EngWorldBackend.DTO.Vocab.VocabResponse;
+import com.example.EngWorldBackend.DTO.Vocab.VocabularyDto;
 import com.example.EngWorldBackend.Domain.Model.Vocab.Vocabulary;
 import com.example.EngWorldBackend.Domain.Model.Vocab.VocabularyTopic;
 import com.example.EngWorldBackend.Persistence.DAO.VocabularyTopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class VocabMapper {
@@ -26,8 +30,8 @@ public class VocabMapper {
 
         if (vocabulary.getTopic() != null) {
             vocabularyTopicRepository.findById(vocabulary
-                    .getTopic()
-                    .getVocabTopicId())
+                            .getTopic()
+                            .getVocabTopicId())
                     .ifPresent(topic -> dto.setTopicName(topic.getTopicName()));
         }
 
@@ -50,5 +54,20 @@ public class VocabMapper {
             vocabulary.setTopic(topic);
         }
         return vocabulary;
+    }
+
+    public static VocabResponse mapToVocabResponse(List<VocabularyDto> vocabDto
+            , Page<Vocabulary> vocabs) {
+
+        VocabResponse vocabResponse = new VocabResponse();
+        vocabResponse.setContent(vocabDto);
+        vocabResponse.setPageNumber(vocabs.getNumber());
+        vocabResponse.setPageSize(vocabs.getSize());
+        vocabResponse.setTotalElements(vocabs.getTotalElements());
+        vocabResponse.setTotalPages(vocabs.getTotalPages());
+        vocabResponse.setLast(vocabs.isLast());
+
+        return vocabResponse;
+
     }
 }

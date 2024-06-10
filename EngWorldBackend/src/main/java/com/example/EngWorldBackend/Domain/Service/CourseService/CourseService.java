@@ -1,6 +1,7 @@
 package com.example.EngWorldBackend.Domain.Service.CourseService;
 
 import com.example.EngWorldBackend.Domain.Model.Course;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +9,7 @@ import java.util.Optional;
 public interface CourseService {
     Course createCourse(Course course);
 
-    List<Course> getAllCourses();
+    Page<Course> getAllCourses(int pageNumber, int pageSize);
 
     Optional<Course> getCourseById(Long courseId);
 
@@ -16,5 +17,5 @@ public interface CourseService {
 
     void deleteCourseById(Long courseId);
 
-    List<Course> getCourseByCate(Long cateId);
+    Page<Course> getCourseByCate(Long cateId,int pageNumber, int pageSize);
 }

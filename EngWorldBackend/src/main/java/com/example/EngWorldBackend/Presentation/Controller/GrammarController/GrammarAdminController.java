@@ -1,12 +1,14 @@
 package com.example.EngWorldBackend.Presentation.Controller.GrammarController;
 
-import com.example.EngWorldBackend.DTO.GrammarDto;
+import com.example.EngWorldBackend.DTO.Grammar.GrammarDto;
+import com.example.EngWorldBackend.DTO.Grammar.GrammarResponse;
 import com.example.EngWorldBackend.Domain.Model.Grammar.Grammar;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
 import com.example.EngWorldBackend.Domain.Service.GrammarService.GrammarService;
 import com.example.EngWorldBackend.Mapper.GrammarMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,15 +40,18 @@ public class GrammarAdminController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllGrammar() {
-        List<Grammar> grammars = grammarService.getAllGrammar();
-        List<Object> response = new ArrayList<>();
+    public ResponseEntity<ResponseObject> getAllGrammar(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        Page<Grammar> grammars = grammarService.getAllGrammar(pageNumber, pageSize);
+        List<GrammarDto> response = new ArrayList<>();
 
         for (Grammar grammar : grammars) {
             GrammarDto grammarDto = GrammarMapper.toDTO(grammar);
             response.add(grammarDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+        GrammarResponse grammarResponse = GrammarMapper.mapToGrammarResponse(response, grammars);
+        return ResponseUtils.buildSuccessResponse(grammarResponse, SUCCESS_RESPONSE);
     }
 
     @DeleteMapping("/delete")
@@ -82,13 +87,17 @@ public class GrammarAdminController {
     }
 
     @GetMapping("/byType/{id}")
-    public ResponseEntity<ResponseObject> getGrammarByType(@PathVariable long id) {
-        List<Grammar> grammars = grammarService.getAllGrammarByType(id);
+    public ResponseEntity<ResponseObject> getGrammarByType(@PathVariable long id
+            , @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber
+            , @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        Page<Grammar> grammars = grammarService.getAllGrammarByType(id, pageNumber, pageSize);
         List<GrammarDto> response = new ArrayList<>();
         for (Grammar grammar : grammars) {
             GrammarDto grammarDto = GrammarMapper.toDTO(grammar);
             response.add(grammarDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+
+        GrammarResponse grammarResponse = GrammarMapper.mapToGrammarResponse(response, grammars);
+        return ResponseUtils.buildSuccessResponse(grammarResponse, SUCCESS_RESPONSE);
     }
 }

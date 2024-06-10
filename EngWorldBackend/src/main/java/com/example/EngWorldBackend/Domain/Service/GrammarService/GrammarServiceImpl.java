@@ -6,9 +6,11 @@ import com.example.EngWorldBackend.Persistence.DAO.GrammarRepository;
 import com.example.EngWorldBackend.Persistence.DAO.GrammarTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,8 +31,9 @@ public class GrammarServiceImpl implements GrammarService {
     }
 
     @Override
-    public List<Grammar> getAllGrammar() {
-        return grammarRepository.findAll();
+    public Page<Grammar> getAllGrammar(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return grammarRepository.findAll(pageable);
     }
 
     @Override
@@ -58,10 +61,12 @@ public class GrammarServiceImpl implements GrammarService {
     }
 
     @Override
-    public List<Grammar> getAllGrammarByType(Long grammarTypeId) {
+    public Page<Grammar> getAllGrammarByType(Long grammarTypeId, int pageNumber, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
         GrammarType grammarType = grammarTypeRepository.findById(grammarTypeId)
                 .orElseThrow(() -> new GrammarTypeNotFoundException("GrammarType not found with id: " + grammarTypeId));
-        return grammarRepository.findByGrammarType(grammarType);
+        return grammarRepository.findByGrammarType(grammarType,pageable);
     }
 
     private GrammarType addTypeToGrammar(GrammarType grammarType) {
@@ -80,4 +85,6 @@ public class GrammarServiceImpl implements GrammarService {
             super(message);
         }
     }
+
+
 }

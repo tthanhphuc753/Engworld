@@ -1,11 +1,17 @@
 package com.example.EngWorldBackend.Domain.Service.VocabularyTopicService;
 
+import com.example.EngWorldBackend.Domain.Model.Vocab.Vocabulary;
 import com.example.EngWorldBackend.Domain.Model.Vocab.VocabularyTopic;
 import com.example.EngWorldBackend.Persistence.DAO.VocabularyTopicRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 @Transactional
@@ -26,8 +32,9 @@ public class VocabularyTopicServiceImpl implements VocabularyTopicService{
     }
 
     @Override
-    public List<VocabularyTopic> getAllVocabularyTopic() {
-        return vocabTopicRepository.findAll();
+    public Page<VocabularyTopic> getAllVocabularyTopic(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return vocabTopicRepository.findAll(pageable);
     }
 
     @Override
@@ -48,7 +55,6 @@ public class VocabularyTopicServiceImpl implements VocabularyTopicService{
                 })
                 .orElseThrow(() -> new IllegalStateException("Vocabulary with ID: " + id + " does not exist"));
     }
-
 
 
 }

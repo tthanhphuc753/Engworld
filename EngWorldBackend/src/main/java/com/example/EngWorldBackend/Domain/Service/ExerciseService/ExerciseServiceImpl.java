@@ -3,6 +3,9 @@ package com.example.EngWorldBackend.Domain.Service.ExerciseService;
 import com.example.EngWorldBackend.Domain.Model.Exercise;
 import com.example.EngWorldBackend.Persistence.DAO.ExerciseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +23,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<Exercise> getAllExercises() {
-        return exerciseRepository.findAll();
+    public Page<Exercise> getAllExercises(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return exerciseRepository.findAll(pageable);
     }
 
     @Override

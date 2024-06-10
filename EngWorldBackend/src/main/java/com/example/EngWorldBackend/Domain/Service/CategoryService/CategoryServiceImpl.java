@@ -4,6 +4,9 @@ package com.example.EngWorldBackend.Domain.Service.CategoryService;
 import com.example.EngWorldBackend.Domain.Model.Categories;
 import com.example.EngWorldBackend.Persistence.DAO.CategoriesRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,8 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Categories> getAllCategories() {
-        return categoriesRepository.findAll();
+    public Page<Categories> getAllCategories(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return categoriesRepository.findAll(pageable);
     }
 
     @Override

@@ -13,8 +13,10 @@ public class QuestionClientController {
     private final QuestionAdminController questionAdminController;
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllQuestions() {
-        return questionAdminController.getAllQuestions();
+    public ResponseEntity<ResponseObject> getAllQuestions(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return questionAdminController.getAllQuestions(pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")
@@ -23,7 +25,9 @@ public class QuestionClientController {
     }
 
     @GetMapping("/byEx")
-    public ResponseEntity<ResponseObject> getByEx(@RequestParam long exId) {
-        return questionAdminController.getByEx(exId);
+    public ResponseEntity<ResponseObject> getByEx(@RequestParam long exId
+            , @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber
+            , @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return questionAdminController.getByEx(exId, pageNumber, pageSize);
     }
 }

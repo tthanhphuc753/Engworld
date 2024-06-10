@@ -1,12 +1,15 @@
 package com.example.EngWorldBackend.Presentation.Controller.GrammarController;
 
-import com.example.EngWorldBackend.DTO.GrammarTypeDto;
+import com.example.EngWorldBackend.DTO.Grammar.GrammarTypeDto;
+import com.example.EngWorldBackend.DTO.Grammar.GrammarTypeResponse;
 import com.example.EngWorldBackend.Domain.Model.Grammar.GrammarType;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
 import com.example.EngWorldBackend.Domain.Service.GrammarTypeService.GrammarTypeService;
+import com.example.EngWorldBackend.Mapper.GrammarMapper;
 import com.example.EngWorldBackend.Mapper.GrammarTypeMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,15 +41,18 @@ public class GrammarTypeAdminController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllGrammarType() {
-        List<GrammarType> grammarTypes = grammarTypeService.getAllGrammarTypes();
-        List<Object> response = new ArrayList<>();
+    public ResponseEntity<ResponseObject> getAllGrammarType(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize){
+        Page<GrammarType> grammarTypes = grammarTypeService.getAllGrammarTypes(pageNumber, pageSize);
+        List<GrammarTypeDto> response = new ArrayList<>();
 
         for (GrammarType grammarType : grammarTypes) {
             GrammarTypeDto grammarTypeDto = GrammarTypeMapper.toDTO(grammarType);
             response.add(grammarTypeDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+        GrammarTypeResponse grammarTypeResponse = GrammarTypeMapper.mapToGrammarTypeResponse(response,grammarTypes);
+        return ResponseUtils.buildSuccessResponse(grammarTypeResponse, SUCCESS_RESPONSE);
     }
 
     @DeleteMapping("/delete")

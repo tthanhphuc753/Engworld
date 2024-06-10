@@ -1,7 +1,11 @@
 package com.example.EngWorldBackend.Mapper;
 
-import com.example.EngWorldBackend.DTO.ExerciseDto;
+import com.example.EngWorldBackend.DTO.Exercise.ExerciseDto;
+import com.example.EngWorldBackend.DTO.Exercise.ExerciseResponse;
 import com.example.EngWorldBackend.Domain.Model.Exercise;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public class ExerciseMapper {
     public static ExerciseDto toDTO(Exercise exercise) {
@@ -22,5 +26,17 @@ public class ExerciseMapper {
         exercise.setExerciseContent(dto.getExerciseContent());
         exercise.setTotalQuestion(dto.getTotalQuestion());
         return exercise;
+    }
+
+    public static ExerciseResponse mapToExerciseResponse(List<ExerciseDto> exerciseDtos, Page<Exercise> exercises) {
+        ExerciseResponse exerciseResponse = new ExerciseResponse();
+        exerciseResponse.setContent(exerciseDtos);
+        exerciseResponse.setPageNumber(exercises.getNumber());
+        exerciseResponse.setPageSize(exercises.getSize());
+        exerciseResponse.setTotalElements(exercises.getTotalElements());
+        exerciseResponse.setTotalPages(exercises.getTotalPages());
+        exerciseResponse.setLast(exercises.isLast());
+
+        return exerciseResponse;
     }
 }

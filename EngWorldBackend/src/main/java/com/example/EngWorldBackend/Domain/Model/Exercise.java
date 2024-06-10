@@ -24,6 +24,6 @@ public class Exercise {
     @JoinColumn(name = "categoryId", nullable = false)
     private Categories category;
 
-    @OneToMany(mappedBy = "exerciseId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questionList;
 }

@@ -1,17 +1,21 @@
 package com.example.EngWorldBackend.Presentation.Controller.VocabController;
 
 
-import com.example.EngWorldBackend.DTO.VocabularyDto;
+import com.example.EngWorldBackend.DTO.Vocab.VocabResponse;
+import com.example.EngWorldBackend.DTO.Vocab.VocabularyDto;
 import com.example.EngWorldBackend.Domain.Model.Vocab.Vocabulary;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
 import com.example.EngWorldBackend.Domain.Service.VocabularyService.VocabularyService;
 import com.example.EngWorldBackend.Mapper.VocabMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,15 +45,23 @@ public class VocabAdminController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllVocabulary() {
-        List<Vocabulary> vocabs = vocabService.getAllVocab();
-        List<Object> response = new ArrayList<>();
+    public ResponseEntity<ResponseObject> getAllVocabulary(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        Page<Vocabulary> vocabs = vocabService.getAllVocab(pageNumber, pageSize);
+
+
+        List<VocabularyDto> dtos = new ArrayList<>();
 
         for (Vocabulary vocab : vocabs) {
             VocabularyDto vocabularyDto = vocabMapper.toDTO(vocab);
-            response.add(vocabularyDto);
+            dtos.add(vocabularyDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+        VocabResponse vocabResponse = VocabMapper.mapToVocabResponse(dtos, vocabs);
+
+
+        return ResponseUtils.buildSuccessResponse(vocabResponse, SUCCESS_RESPONSE);
     }
 
 
@@ -90,13 +102,26 @@ public class VocabAdminController {
     }
 
     @GetMapping("/byTopic/{id}")
-    public ResponseEntity<ResponseObject> getVocabByTopic(@PathVariable long id) {
-        List<Vocabulary> vocabs = vocabService.getAllVocabByTopic(id);
+    public ResponseEntity<ResponseObject> getVocabByTopic(@PathVariable long id,
+                                                          @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+                                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        Page<Vocabulary> vocabs = vocabService.getAllVocabByTopic(id, pageNumber, pageSize);
         List<VocabularyDto> response = new ArrayList<>();
         for (Vocabulary vocab : vocabs) {
             VocabularyDto vocabDto = vocabMapper.toDTO(vocab);
             response.add(vocabDto);
         }
-        return ResponseUtils.buildSuccessResponse(response, SUCCESS_RESPONSE);
+        VocabResponse vocabResponse = VocabMapper.mapToVocabResponse(response, vocabs);
+        return ResponseUtils.buildSuccessResponse(vocabResponse, SUCCESS_RESPONSE);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseObject> uploadVocab(@RequestParam("file") MultipartFile file) {
+        try {
+            vocabService.addVocabFromExcel(file.getInputStream());
+            return ResponseUtils.buildCreatedResponse(null, CREATED_SUCCESS_RESPONES);
+        } catch (IOException e) {
+            return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, BAD_REQUEST + e.getMessage());
+        }
     }
 }

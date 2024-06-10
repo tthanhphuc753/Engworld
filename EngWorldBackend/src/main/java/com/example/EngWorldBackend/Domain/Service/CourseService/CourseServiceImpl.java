@@ -6,10 +6,12 @@ import com.example.EngWorldBackend.Persistence.DAO.CategoriesRepository;
 import com.example.EngWorldBackend.Persistence.DAO.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,8 +34,9 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public Page<Course> getAllCourses(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return courseRepository.findAll(pageable);
     }
 
     @Override
@@ -46,8 +49,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getCourseByCate(Long cateId) {
-        return courseRepository.getAllByCategory(cateId);
+    public Page<Course> getCourseByCate(Long cateId, int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Categories categories = categoriesRepository.findById(cateId)
+                .orElseThrow(() -> new CategoryNotFoundException("VocabTopic not found with id: " + cateId));
+        return courseRepository.findByCategory(categories, pageable);
     }
 
     @Override

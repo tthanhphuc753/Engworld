@@ -1,7 +1,11 @@
 package com.example.EngWorldBackend.Mapper;
 
-import com.example.EngWorldBackend.DTO.CategoriesDto;
+import com.example.EngWorldBackend.DTO.Categories.CategoriesDto;
+import com.example.EngWorldBackend.DTO.Categories.CategoriesResponse;
 import com.example.EngWorldBackend.Domain.Model.Categories;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public class CategoriesMapper {
 
@@ -18,5 +22,17 @@ public class CategoriesMapper {
         categories.setCategoryname(dto.getCategoryname());
         return categories;
 
+    }
+
+    public static CategoriesResponse mapToCategoryResponse(List<CategoriesDto> categoryDtos, Page<Categories> categories) {
+        CategoriesResponse categoryResponse = new CategoriesResponse();
+        categoryResponse.setContent(categoryDtos);
+        categoryResponse.setPageNumber(categories.getNumber());
+        categoryResponse.setPageSize(categories.getSize());
+        categoryResponse.setTotalElements(categories.getTotalElements());
+        categoryResponse.setTotalPages(categories.getTotalPages());
+        categoryResponse.setLast(categories.isLast());
+
+        return categoryResponse;
     }
 }

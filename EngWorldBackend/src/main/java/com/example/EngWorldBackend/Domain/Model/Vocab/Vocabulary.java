@@ -26,4 +26,11 @@ public class Vocabulary {
     @JoinColumn(name = "vocabTopicId", nullable = false)
     private VocabularyTopic topic ;
 
+    public Vocabulary(String word, String meaning, String iPA, String example, VocabularyTopic vocabularyTopic) {
+        this.vocabWord = word;
+        this.vocabExample = example;
+        this.vocabIPA = iPA;
+        this.vocabMeaning=meaning;
+        this.topic = vocabularyTopic;
+    }
 }

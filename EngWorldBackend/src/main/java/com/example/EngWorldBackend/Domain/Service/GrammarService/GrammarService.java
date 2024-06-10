@@ -1,8 +1,8 @@
 package com.example.EngWorldBackend.Domain.Service.GrammarService;
 
 import com.example.EngWorldBackend.Domain.Model.Grammar.Grammar;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface GrammarService {
@@ -10,11 +10,11 @@ public interface GrammarService {
 
     Optional<Grammar> getGrammarById(Long id);
 
-    List<Grammar> getAllGrammar();
+    Page<Grammar> getAllGrammar(int pageNumber, int pageSize);
 
     void deleteGrammarById(Long id);
 
     Grammar updateGrammarById(Long id, Grammar newGrammar) throws Exception;
 
-    List<Grammar> getAllGrammarByType(Long grammarTypeId);
+    Page<Grammar> getAllGrammarByType(Long grammarTypeId, int pageNumber, int pageSize);
 }

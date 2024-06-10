@@ -3,6 +3,9 @@ package com.example.EngWorldBackend.Domain.Service.GrammarTypeService;
 import com.example.EngWorldBackend.Domain.Model.Grammar.GrammarType;
 import com.example.EngWorldBackend.Persistence.DAO.GrammarTypeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,8 +25,9 @@ public class GrammarTypeServiceImpl implements GrammarTypeService{
     }
 
     @Override
-    public List<GrammarType> getAllGrammarTypes() {
-        return grammarTypeRepository.findAll();
+    public Page<GrammarType> getAllGrammarTypes(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return grammarTypeRepository.findAll(pageable);
     }
 
     @Override

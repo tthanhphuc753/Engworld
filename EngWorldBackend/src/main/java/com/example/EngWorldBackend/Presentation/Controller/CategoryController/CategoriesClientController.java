@@ -3,10 +3,7 @@ package com.example.EngWorldBackend.Presentation.Controller.CategoryController;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,8 +13,10 @@ public class CategoriesClientController {
     private final CategoriesAdminController categoriesAdminController;
 
     @GetMapping("/get")
-    public ResponseEntity<ResponseObject> getAllCategories() {
-        return categoriesAdminController.getAllCategories();
+    public ResponseEntity<ResponseObject> getAllCategories(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return categoriesAdminController.getAllCategories(pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")

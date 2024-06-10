@@ -1,4 +1,4 @@
-package com.example.EngWorldBackend.DTO;
+package com.example.EngWorldBackend.DTO.Vocab;
 
 import lombok.Data;
 
