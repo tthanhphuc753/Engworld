@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -93,7 +95,7 @@ public class QuestionAdminController {
             , @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber
             , @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
 
-        Page<Question> questions = questionService.getQuestionByEx(exId,pageNumber,pageSize);
+        Page<Question> questions = questionService.getQuestionByEx(exId, pageNumber, pageSize);
         List<QuestionDto> response = new ArrayList<>();
 
         for (Question question : questions) {
@@ -102,5 +104,21 @@ public class QuestionAdminController {
         }
         QuestionResponse questionResponse = QuestionMapper.mapToQuestionResponse(response, questions);
         return ResponseUtils.buildSuccessResponse(questionResponse, SUCCESS_RESPONSE);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseObject> uploadVocab(@RequestParam("file") MultipartFile file) {
+        try {
+            List<Question> questions = questionService.addQuestionFromExcel(file.getInputStream());
+            List<QuestionDto> dtos = new ArrayList<>();
+
+            for (Question question : questions) {
+                QuestionDto questionDto = questionMapper.toDTO(question);
+                dtos.add(questionDto);
+            }
+            return ResponseUtils.buildCreatedResponse(dtos, CREATED_SUCCESS_RESPONES);
+        } catch (IOException e) {
+            return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, BAD_REQUEST + e.getMessage());
+        }
     }
 }

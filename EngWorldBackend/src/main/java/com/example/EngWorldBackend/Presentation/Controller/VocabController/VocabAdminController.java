@@ -118,8 +118,14 @@ public class VocabAdminController {
     @PostMapping("/upload")
     public ResponseEntity<ResponseObject> uploadVocab(@RequestParam("file") MultipartFile file) {
         try {
-            vocabService.addVocabFromExcel(file.getInputStream());
-            return ResponseUtils.buildCreatedResponse(null, CREATED_SUCCESS_RESPONES);
+            List<Vocabulary> vocabs = vocabService.addVocabFromExcel(file.getInputStream());
+            List<VocabularyDto> dtos = new ArrayList<>();
+
+            for (Vocabulary vocab : vocabs) {
+                VocabularyDto vocabularyDto = vocabMapper.toDTO(vocab);
+                dtos.add(vocabularyDto);
+            }
+            return ResponseUtils.buildCreatedResponse(dtos, CREATED_SUCCESS_RESPONES);
         } catch (IOException e) {
             return ResponseUtils.buildErrorResponse(HttpStatus.BAD_REQUEST, BAD_REQUEST + e.getMessage());
         }

@@ -1,11 +1,15 @@
 package com.example.EngWorldBackend.Domain.Service.QuestionService;
 
+import com.example.EngWorldBackend.Domain.Exception.ExerciseNotFoundException;
+import com.example.EngWorldBackend.Domain.Exception.GrammarNotFoundException;
 import com.example.EngWorldBackend.Domain.Model.Exercise;
 import com.example.EngWorldBackend.Domain.Model.Grammar.Grammar;
 import com.example.EngWorldBackend.Domain.Model.Question;
+import com.example.EngWorldBackend.Domain.Service.InputService.ExcelReader;
 import com.example.EngWorldBackend.Persistence.DAO.ExerciseRepository;
 import com.example.EngWorldBackend.Persistence.DAO.GrammarRepository;
 import com.example.EngWorldBackend.Persistence.DAO.QuestionRepository;
+import com.example.EngWorldBackend.Persistence.DAO.VocabularyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -20,10 +27,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
-
     private final QuestionRepository questionRepository;
     private final ExerciseRepository exerciseRepository;
     private final GrammarRepository grammarRepository;
+    private final VocabularyRepository vocabularyRepository;
+    private final ExcelReader excelReader;
 
     @Override
     public Question createQuestion(Question newQuest) {
@@ -43,11 +51,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void deleteQuestionById(Long id) {
-        if (questionRepository.existsById(id)) {
-            questionRepository.deleteById(id);
-        } else {
-            throw new IllegalStateException("Question with ID: " + id + " does not exist");
-        }
+        questionRepository.findById(id)
+                .ifPresent(questionRepository::delete);
     }
 
     @Override
@@ -69,14 +74,14 @@ public class QuestionServiceImpl implements QuestionService {
 
     private Exercise addQuestionToEx(Exercise exercise) {
         return exerciseRepository.findById(exercise.getExerciseId())
-                .orElseThrow(() -> new ExerciseNotFoundException("GrammarType not found with id: " + exercise.getExerciseId()));
+                .orElseThrow(() -> new ExerciseNotFoundException("Exercise not found with id: " + exercise.getExerciseId()));
     }
 
     @Override
     public Page<Question> getAllQuestionGrammar(Long grammarId, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Grammar grammar = grammarRepository.findById(grammarId)
-                .orElseThrow(() -> new QuestionServiceImpl.GrammarNotFoundException("grammar not found with id: " + grammarId));
+                .orElseThrow(() -> new GrammarNotFoundException("grammar not found with id: " + grammarId));
         return questionRepository.findByGrammar(grammar, pageable);
     }
 
@@ -85,19 +90,14 @@ public class QuestionServiceImpl implements QuestionService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Exercise exercise = exerciseRepository.findById(exerciseId)
-                .orElseThrow(() -> new QuestionServiceImpl.ExerciseNotFoundException("Exercise not found with id: " + exerciseId));
+                .orElseThrow(() -> new ExerciseNotFoundException("Exercise not found with id: " + exerciseId));
         return questionRepository.findByExercise(exercise, pageable);
     }
 
-    private static class ExerciseNotFoundException extends RuntimeException {
-        public ExerciseNotFoundException(String message) {
-            super(message);
-        }
-    }
-
-    private static class GrammarNotFoundException extends RuntimeException {
-        public GrammarNotFoundException(String message) {
-            super(message);
-        }
+    @Override
+    public List<Question> addQuestionFromExcel(InputStream inputStream) throws IOException {
+        List<Question> questions = excelReader.readQuestionFromExcel(inputStream, vocabularyRepository, grammarRepository, exerciseRepository);
+        questionRepository.saveAll(questions);
+        return questions;
     }
 }

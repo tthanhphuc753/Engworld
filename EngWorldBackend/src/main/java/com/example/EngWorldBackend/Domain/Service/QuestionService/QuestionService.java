@@ -2,7 +2,11 @@ package com.example.EngWorldBackend.Domain.Service.QuestionService;
 
 import com.example.EngWorldBackend.Domain.Model.Question;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 
 public interface QuestionService {
@@ -19,4 +23,7 @@ public interface QuestionService {
     Page<Question> getAllQuestionGrammar(Long Id, int pageNumber, int pageSize);
 
     Page<Question> getQuestionByEx(long Id, int pageNumber, int pageSize);
+
+
+    List<Question> addQuestionFromExcel(InputStream inputStream) throws IOException;
 }

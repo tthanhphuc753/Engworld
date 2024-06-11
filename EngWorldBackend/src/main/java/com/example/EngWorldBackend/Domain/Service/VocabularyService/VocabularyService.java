@@ -25,5 +25,5 @@ public interface VocabularyService {
     public Vocabulary findByWord(String vocabWord);
 
 
-    void addVocabFromExcel(InputStream inputStream) throws IOException;
+    List<Vocabulary> addVocabFromExcel(InputStream inputStream) throws IOException;
 }
