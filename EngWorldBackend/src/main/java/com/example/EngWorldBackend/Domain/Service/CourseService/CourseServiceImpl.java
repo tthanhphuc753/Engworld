@@ -1,7 +1,7 @@
 package com.example.EngWorldBackend.Domain.Service.CourseService;
 
 import com.example.EngWorldBackend.Domain.Model.Categories;
-import com.example.EngWorldBackend.Domain.Model.Course;
+import com.example.EngWorldBackend.Domain.Model.Course.Course;
 import com.example.EngWorldBackend.Persistence.DAO.CategoriesRepository;
 import com.example.EngWorldBackend.Persistence.DAO.CourseRepository;
 import lombok.RequiredArgsConstructor;

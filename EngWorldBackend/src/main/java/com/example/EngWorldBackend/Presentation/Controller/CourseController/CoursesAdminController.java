@@ -2,11 +2,16 @@ package com.example.EngWorldBackend.Presentation.Controller.CourseController;
 
 import com.example.EngWorldBackend.DTO.Course.CourseDto;
 import com.example.EngWorldBackend.DTO.Course.CourseResponse;
-import com.example.EngWorldBackend.Domain.Model.Course;
+import com.example.EngWorldBackend.DTO.Course.VideoDto;
+import com.example.EngWorldBackend.DTO.Course.VideoResponse;
+import com.example.EngWorldBackend.Domain.Model.Course.Course;
+import com.example.EngWorldBackend.Domain.Model.Course.Video;
 import com.example.EngWorldBackend.Domain.Respones.ResponseObject;
 import com.example.EngWorldBackend.Domain.Respones.ResponseUtils;
 import com.example.EngWorldBackend.Domain.Service.CourseService.CourseService;
+import com.example.EngWorldBackend.Domain.Service.CourseService.VideoService;
 import com.example.EngWorldBackend.Mapper.CourseMapper;
+import com.example.EngWorldBackend.Mapper.VideoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -25,6 +30,7 @@ import static com.example.EngWorldBackend.Domain.Respones.ResponseMessages.*;
 public class CoursesAdminController {
 
     private final CourseService courseService;
+    private final VideoService videoService;
 
 
     @PostMapping("/add")
@@ -96,7 +102,7 @@ public class CoursesAdminController {
             CourseDto courseDto = CourseMapper.toDTO(course);
             response.add(courseDto);
         }
-        CourseResponse courseResponse = CourseMapper.mapToCourseResponse(response,courses);
+        CourseResponse courseResponse = CourseMapper.mapToCourseResponse(response, courses);
         return ResponseUtils.buildSuccessResponse(courseResponse, SUCCESS_RESPONSE);
     }
 }

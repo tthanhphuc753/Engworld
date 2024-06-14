@@ -19,6 +19,13 @@ spring:
       properties:
         hibernate.dialect: org.hibernate.dialect.SQLServer2012Dialect
 
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -37,3 +44,4 @@ server:
   servlet:
     session:
       store-type: none
+

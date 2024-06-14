@@ -1,9 +1,8 @@
 package com.example.EngWorldBackend.Domain.Service.CourseService;
 
-import com.example.EngWorldBackend.Domain.Model.Course;
+import com.example.EngWorldBackend.Domain.Model.Course.Course;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface CourseService {

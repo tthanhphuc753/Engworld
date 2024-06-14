@@ -1,17 +1,11 @@
 package com.example.EngWorldBackend.DTO.Vocab;
 
+import com.example.EngWorldBackend.Domain.Respones.PagedResponse;
 import lombok.Data;
-
-import java.util.List;
 
 
 @Data
-public class VocabResponse{
+public class VocabResponse extends PagedResponse<VocabularyDto> {
 
-    private List<VocabularyDto> content;
-    private int pageNumber;
-    private int pageSize;
-    private Long totalElements;
-    private int totalPages;
-    private boolean last;
+
 }

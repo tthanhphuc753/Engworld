@@ -1,5 +1,7 @@
 package com.example.EngWorldBackend;
 
+import com.example.EngWorldBackend.Domain.Model.Exercise;
+import com.example.EngWorldBackend.Domain.Model.Grammar.Grammar;
 import com.example.EngWorldBackend.Domain.Model.Question;
 import com.example.EngWorldBackend.Domain.Model.Vocab.Vocabulary;
 import com.example.EngWorldBackend.Domain.Security.ApplicationConfig;
@@ -44,25 +46,42 @@ public class EngWorldBackendApplication {
 // Đối tượng repository cho các đối tượng khác như Vocabulary, Grammar, Exercise
 
 //    @Bean
-//    CommandLineRunner commandLineRunner() {
+//    CommandLineRunner commandLineRunner(QuestionRepository questionRepository, ExerciseRepository exerciseRepository, GrammarRepository grammarRepository) {
 //        return args -> {
-//            List<Question> questions = questionRepository.findAll();
+//            Exercise exercise = exerciseRepository.findById(2L)
+//                    .orElseThrow(() -> new RuntimeException("Exercise not found"));
 //
-//            // Lặp qua từng câu hỏi và cập nhật cột vocab_id
-//            for (Question question : questions) {
-//                // Lấy từ vựng tương ứng cho câu hỏi, ví dụ:
-//                Vocabulary vocabulary = vocabularyRepository.findByVocabWord(question.getCorrectAnswer());
-//                // Nếu tìm thấy từ vựng, cập nhật cột vocab_id của câu hỏi
-//                if (vocabulary != null) {
-//                    question.setVocab(vocabulary);
-//                    // Lưu thay đổi vào cơ sở dữ liệu
-//                    questionRepository.save(question);
-//                } else {
-//                    // Xử lý trường hợp không tìm thấy từ vựng
-//                }
-//            }
+//            Grammar grammar = grammarRepository.findById(1L) // Assuming grammar ID for "Present Simple" is 1
+//                    .orElseThrow(() -> new RuntimeException("Grammar not found"));
+//
+//            List<Question> questions = new ArrayList<>();
+//
+//            questions.add(createGrammarQuestion("My brother ........ in the same company for five years now.", "works", "work", "working", "worked", exercise, grammar));
+//            questions.add(createGrammarQuestion("They ........ the house every Saturday morning.", "clean", "cleans", "cleaning", "cleaned", exercise, grammar));
+//            questions.add(createGrammarQuestion("Water ........ at 100 degrees Celsius.", "boils", "boil", "boiling", "boiled", exercise, grammar));
+//            questions.add(createGrammarQuestion("She ........ as a doctor in a local hospital.", "works", "work", "working", "worked", exercise, grammar));
+//            questions.add(createGrammarQuestion("Tom and Jerry ........ to school by bus every day.", "go", "goes", "going", "gone", exercise, grammar));
+//            questions.add(createGrammarQuestion("The store ........ at 9 PM every day.", "closes", "close", "closing", "closed", exercise, grammar));
+//            questions.add(createGrammarQuestion("She ........ to the gym three times a week.", "goes", "go", "going", "gone", exercise, grammar));
+//            questions.add(createGrammarQuestion("My parents ........ in a small town near the coast.", "live", "lives", "living", "lived", exercise, grammar));
+//            questions.add(createGrammarQuestion("He ........ breakfast before going to work.", "eats", "eat", "eating", "ate", exercise, grammar));
+//            questions.add(createGrammarQuestion("Our team usually ........ the project on time.", "finishes", "finish", "finishing", "finished", exercise, grammar));
+//
+//            questionRepository.saveAll(questions);
 //        };
 //    }
+
+    private Question createGrammarQuestion(String questionText, String correctAnswer, String option1, String option2, String option3, Exercise exercise, Grammar grammar) {
+        return Question.builder()
+                .questionText(questionText)
+                .correctAnswer(correctAnswer)
+                .op1(option1)
+                .op2(option2)
+                .op3(option3)
+                .grammar(grammar)
+                .exercise(exercise)
+                .build();
+    }
 
 
     private <T> List<T> getRandomElements(List<T> originalList, int count) {

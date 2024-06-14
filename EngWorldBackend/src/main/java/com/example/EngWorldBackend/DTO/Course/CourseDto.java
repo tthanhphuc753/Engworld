@@ -1,11 +1,12 @@
 package com.example.EngWorldBackend.DTO.Course;
 
+import com.example.EngWorldBackend.Domain.Model.Course.Course;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link com.example.EngWorldBackend.Domain.Model.Course}
+ * DTO for {@link Course}
  */
 @Data
 public class CourseDto implements Serializable {

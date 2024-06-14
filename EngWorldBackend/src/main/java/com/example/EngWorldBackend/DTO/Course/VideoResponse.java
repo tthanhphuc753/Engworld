@@ -6,6 +6,6 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CourseResponse extends PagedResponse<CourseDto> {
+public class VideoResponse extends PagedResponse<VideoDto> {
 
 }

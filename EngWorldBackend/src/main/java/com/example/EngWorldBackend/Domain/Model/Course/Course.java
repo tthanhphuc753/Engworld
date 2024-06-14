@@ -1,9 +1,11 @@
-package com.example.EngWorldBackend.Domain.Model;
+package com.example.EngWorldBackend.Domain.Model.Course;
 
 
+import com.example.EngWorldBackend.Domain.Model.Categories;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,10 +21,14 @@ public class Course {
     private String courseName;
     private String courseLevel;
     private String courseDes;
+    private double price;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="categoryId",nullable = false)
+    @JoinColumn(name = "categoryId", nullable = false)
     private Categories category;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Video> videos;
 
 }

@@ -2,7 +2,7 @@ package com.example.EngWorldBackend.Mapper;
 
 import com.example.EngWorldBackend.DTO.Course.CourseDto;
 import com.example.EngWorldBackend.DTO.Course.CourseResponse;
-import com.example.EngWorldBackend.Domain.Model.Course;
+import com.example.EngWorldBackend.Domain.Model.Course.Course;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

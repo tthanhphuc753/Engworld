@@ -1,11 +1,10 @@
 package com.example.EngWorldBackend.Persistence.DAO;
 
-import com.example.EngWorldBackend.Domain.Model.Categories;
+import com.example.EngWorldBackend.Domain.Model.Course.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
-public interface CategoriesRepository extends JpaRepository<Categories, Long> {
-
-
+public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
 }

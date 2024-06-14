@@ -115,8 +115,8 @@ public class VocabAdminController {
         return ResponseUtils.buildSuccessResponse(vocabResponse, SUCCESS_RESPONSE);
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<ResponseObject> uploadVocab(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/add/excel")
+    public ResponseEntity<ResponseObject> addVocabFromExcel(@RequestParam("file") MultipartFile file) {
         try {
             List<Vocabulary> vocabs = vocabService.addVocabFromExcel(file.getInputStream());
             List<VocabularyDto> dtos = new ArrayList<>();

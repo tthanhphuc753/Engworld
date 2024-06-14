@@ -29,7 +29,8 @@ public class SecurityConfig {
 
                         authorizeRequests
                                 .antMatchers("/api/admin/**").hasAuthority("ADMIN")
-                                .antMatchers("/api/auth/**", "/api/user/**", "/api/client/**")
+                                .antMatchers("/api/user/**").hasAuthority("USER")
+                                .antMatchers("/api/auth/**", "/api/client/**")
                                 .permitAll()
                                 .anyRequest().authenticated();
 
