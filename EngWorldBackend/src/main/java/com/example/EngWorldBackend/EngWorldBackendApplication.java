@@ -23,19 +23,19 @@ public class EngWorldBackendApplication {
         SpringApplication.run(EngWorldBackendApplication.class, args);
     }
 
-    @Autowired
+    //@Autowired
 
 
-    @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository) {
-        return args -> {
-            User Phuc = new User(null, "Phuc", "Tran"
-                    , "tthanhphuc753@gmail.com"
-                    , applicationConfig.passwordEncoder().encode("123456")
-                    , "ADMIN", null, true);
-            userRepository.save(Phuc);
-
-
-        };
-    }
+//    @Bean
+//    CommandLineRunner commandLineRunner(UserRepository userRepository) {
+//        return args -> {
+//            User Phuc = new User(null, "Phuc", "Tran"
+//                    , "tthanhphuc753@gmail.com"
+//                    , applicationConfig.passwordEncoder().encode("123456")
+//                    , "ADMIN", null, true);
+//            userRepository.save(Phuc);
+//
+//
+//        };
+//    }
 }

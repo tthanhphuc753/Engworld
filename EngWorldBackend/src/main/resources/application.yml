@@ -6,7 +6,7 @@ spring:
 
     url: jdbc:sqlserver://localhost:1433;databaseName=ENGWORLD;encrypt=true;trustServerCertificate=true;
     username: sa
-    password: asdfgh2468
+    password: 123456
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
