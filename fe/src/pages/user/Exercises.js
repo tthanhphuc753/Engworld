@@ -1,35 +1,25 @@
-import React, { useState } from 'react';
-
-const questions = [
-    {
-        question: "Question 26: The babysitter has told Billy’s parents about his _____ behavior and how he starts acting as soon as they leave home.",
-        options: [
-            "A. focus-seeking",
-            "B. meditation-seeking",
-            "C. attention-seeking",
-            "D. concentration-seeking"
-        ],
-        answer: "C. attention-seeking",
-        explanation: "Attention-seeking behavior refers to behavior that is intended to attract attention to oneself, typically to gain validation or recognition."
-    },
-    {
-        question: "Question 27: _____ as a masterpiece, a work of art must transcend the ideals of the period in which it was created.",
-        options: [
-            "A. In order to be ranking",
-            "B. Ranking",
-            "C. Being ranked",
-            "D. To be ranked"
-        ],
-        answer: "D. To be ranked",
-        explanation: "The sentence structure requires an infinitive phrase ('to be ranked') to complete the meaning: 'In order to be ranked as a masterpiece...'."
-    },
-    // Add more questions here
-];
+import React, { useState, useEffect } from 'react';
+import { userGetAllQuestion } from '../../service';
 
 export default function Exercises() {
+    const [questions, setQuestions] = useState([]);
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await userGetAllQuestion();
+                setQuestions(response.content);
+                setSelectedAnswers(Array(response.length).fill(null))
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+
+    }, []);
     const [selectedAnswers, setSelectedAnswers] = useState(Array(questions.length).fill(null));
     const [showExplanation, setShowExplanation] = useState(Array(questions.length).fill(false));
-
     const handleAnswerSelect = (questionIndex, optionIndex) => {
         const newSelectedAnswers = [...selectedAnswers];
         newSelectedAnswers[questionIndex] = optionIndex;
@@ -45,12 +35,12 @@ export default function Exercises() {
     };
 
     return (
-        <div className="">
-            <div className='text-2xl'>Exercises:</div>
+        <div className="flex flex-col items-center justify-center">
+            <div className='text-2xl my-5'>Exercises:</div>
             <ul className=''>
                 {questions.map((question, index1) => (
                     <li key={index1}>
-                        <p>{question.question}</p>
+                        <p className='text-lg font-medium'>{question.questionText}</p>
                         {question.options.map((option, index2) => (
                             <div key={index2}>
                                 <input
@@ -59,7 +49,7 @@ export default function Exercises() {
                                     checked={selectedAnswers[index1] === index2}
                                     onChange={() => handleAnswerSelect(index1, index2)}
                                 />
-                                <label>{option}</label>
+                                <label className='ml-2'>{option}</label>
                             </div>
                         ))}
                         {selectedAnswers[index1] !== null && (
@@ -69,7 +59,8 @@ export default function Exercises() {
                                 </button>
                                 {showExplanation[index1] && (
                                     <div>
-                                        <p className=''>{question.explanation}</p>
+                                        <p>{question.correctAnswer}</p>
+                                        <p className='text-wrap max-w-md'>{question.explanation} vvv vvv vvv vvv vvv vvv vvv vvv vvv vvv vvv vvv vvv vv vvv vvv vvv vvv vvv vvv vvv vv vvv vvv vvv vvv vvv vvv vvv vv vvv vvv vvv vvv vvv vvv vvv</p>
                                     </div>
                                 )}
                             </div>

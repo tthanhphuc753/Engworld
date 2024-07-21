@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
+import { Link } from "react-router-dom";
 const ltests = [
   { "name": "test 1", "Number of Questions": 2, "time": 10, "students": 20 },
   { "name": "test 2", "Number of Questions": 4, "time": 20, "students": 40 },
@@ -207,8 +208,6 @@ const lcourses = [
   // ...
 ];
 export default function Home() {
-  const cookies = new Cookies()
-  const { token, setToken } = useState("aaa");
   const [soluongkhoahoc, setSoluongkhoahoc] = useState(1)
   const [soLuongDeDaLuyen, setSoLuongDeDaLuyen] = useState(1)
   const [courses, setCourses] = useState([])
@@ -217,13 +216,23 @@ export default function Home() {
     setCourses(lcourses.slice(0, 3))
     setTests(ltests.slice(0, 8))
   }, [])
+  const [token, setToken] = useState("")
+  const [name, setName] = useState("")
+  useEffect(() => {
+    const cookies = new Cookies()
+    const tokenE = cookies.get('token')
+    if (tokenE) {
+      setToken(tokenE)
+      setName(cookies.get('name'))
+    }
+  }, [])
   return (
     <div className="max-w-full text-base mx-auto">
       <div className="flex flex-col items-center">
         {token ? <div className="container mx-5">
           <div>
             <p className="text-3xl text-main-color font-medium">
-              Xin chào {cookies.get('username')}
+              Xin chào {name}
             </p>
           </div>
           <div>
@@ -233,64 +242,72 @@ export default function Home() {
             {soluongkhoahoc > 0 ? (<ul className="m-5 flex flex-row justify-between">
 
               <li className="flex flex-col w-56 bg-white text-main-color rounded-md cursor-pointer">
-                <div className="">
-                  <img className="w-full h-full rounded-md" src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg" alt="art" />
-                </div>
-                <div className=" text-sm">
-                  <p>
-                    [IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết
-                  </p>
-                </div>
-                <div className="course-prices  text-sm text-orange-600">
-                  <span className="course-price">699.000đ</span>
-                  <span className="ml-1 course-listing-price"><s className="decoration-black">899.000đ</s></span>
-                  <span className="ml-2 badge badge-danger badge-lg text-red-600">-22%</span>
-                </div>
+                <Link to='/courseinfo/1'>
+                  <div className="">
+                    <img className="w-full h-full rounded-md" src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg" alt="art" />
+                  </div>
+                  <div className=" text-sm">
+                    <p>
+                      [IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết
+                    </p>
+                  </div>
+                  <div className="course-prices  text-sm text-orange-600">
+                    <span className="course-price">699.000đ</span>
+                    <span className="ml-1 course-listing-price"><s className="decoration-black">899.000đ</s></span>
+                    <span className="ml-2 badge badge-danger badge-lg text-red-600">-22%</span>
+                  </div>
+                </Link>
               </li>
               <li className="flex flex-col w-56 bg-white text-main-color rounded-md cursor-pointer">
-                <div className="">
-                  <img className="w-full h-full rounded-md" src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg" alt="art" />
-                </div>
-                <div className=" text-sm">
-                  <p>
-                    [IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết
-                  </p>
-                </div>
-                <div className="course-prices  text-sm text-orange-600">
-                  <span className="course-price">699.000đ</span>
-                  <span className="ml-1 course-listing-price"><s className="decoration-black">899.000đ</s></span>
-                  <span className="ml-2 badge badge-danger badge-lg text-red-600">-22%</span>
-                </div>
+                <Link to='/courseinfo/1'>
+                  <div className="">
+                    <img className="w-full h-full rounded-md" src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg" alt="art" />
+                  </div>
+                  <div className=" text-sm">
+                    <p>
+                      [IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết
+                    </p>
+                  </div>
+                  <div className="course-prices  text-sm text-orange-600">
+                    <span className="course-price">699.000đ</span>
+                    <span className="ml-1 course-listing-price"><s className="decoration-black">899.000đ</s></span>
+                    <span className="ml-2 badge badge-danger badge-lg text-red-600">-22%</span>
+                  </div>
+                </Link>
               </li>
               <li className="flex flex-col w-56 bg-white text-main-color rounded-md cursor-pointer">
-                <div className="">
-                  <img className="w-full h-full rounded-md" src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg" alt="art" />
-                </div>
-                <div className=" text-sm">
-                  <p>
-                    [IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết
-                  </p>
-                </div>
-                <div className="course-prices  text-sm text-orange-600">
-                  <span className="course-price">699.000đ</span>
-                  <span className="ml-1 course-listing-price"><s className="decoration-black">899.000đ</s></span>
-                  <span className="ml-2 badge badge-danger badge-lg text-red-600">-22%</span>
-                </div>
+                <Link to='/courseinfo/1'>
+                  <div className="">
+                    <img className="w-full h-full rounded-md" src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg" alt="art" />
+                  </div>
+                  <div className=" text-sm">
+                    <p>
+                      [IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết
+                    </p>
+                  </div>
+                  <div className="course-prices  text-sm text-orange-600">
+                    <span className="course-price">699.000đ</span>
+                    <span className="ml-1 course-listing-price"><s className="decoration-black">899.000đ</s></span>
+                    <span className="ml-2 badge badge-danger badge-lg text-red-600">-22%</span>
+                  </div>
+                </Link>
               </li>
               <li className="flex flex-col w-56 bg-white text-main-color rounded-md cursor-pointer">
-                <div className="">
-                  <img className="w-full h-full rounded-md" src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg" alt="art" />
-                </div>
-                <div className=" text-sm">
-                  <p>
-                    [IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết
-                  </p>
-                </div>
-                <div className="course-prices  text-sm text-orange-600">
-                  <span className="course-price">699.000đ</span>
-                  <span className="ml-1 course-listing-price"><s className="decoration-black">899.000đ</s></span>
-                  <span className="ml-2 badge badge-danger badge-lg text-red-600">-22%</span>
-                </div>
+                <Link to='/courseinfo/1'>
+                  <div className="">
+                    <img className="w-full h-full rounded-md" src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg" alt="art" />
+                  </div>
+                  <div className=" text-sm">
+                    <p>
+                      [IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết
+                    </p>
+                  </div>
+                  <div className="course-prices  text-sm text-orange-600">
+                    <span className="course-price">699.000đ</span>
+                    <span className="ml-1 course-listing-price"><s className="decoration-black">899.000đ</s></span>
+                    <span className="ml-2 badge badge-danger badge-lg text-red-600">-22%</span>
+                  </div>
+                </Link>
               </li>
             </ul>) : <div className="m-5">Ban chua dang ky khoa hoc nao</div>}
           </div>
@@ -370,27 +387,27 @@ export default function Home() {
         <div className="dethi w-full bg-white h-96 flex flex-col text-main-color items-center mb-5">
           <p className="text-xl basis-1/6 flex justify-center items-center">Đề thi mới nhất</p>
           <ul className="grid grid-rows-2 grid-flow-col gap-4 basis-5/6">
-          {tests.map((test,index)=>(
-            <li key={index} className="border border-inherit rounded-md">
-            <div className=" mx-5 mt-3 mb-5">
-              <div className="">
-                <h2 className="">
-                  {test.name}
-                  {/* IELTS Simulation Listening test 1 */}
-                </h2>
-              </div>
-              <div className="">
-                <div>{test.time} phút | {test["Number of Question"]} câu hỏi | {test.students}</div>
-              </div>
-            </div>
-            <div className="h-2/5 flex justify-center items-center">
-              <div className="bg-white px-10 py-2 border border-main-color rounded-lg">
+            {tests.map((test, index) => (
+              <li key={index} className="border border-inherit rounded-md">
+                <div className=" mx-5 mt-3 mb-5">
+                  <div className="">
+                    <h2 className="">
+                      {test.name}
+                      {/* IELTS Simulation Listening test 1 */}
+                    </h2>
+                  </div>
+                  <div className="">
+                    <div>{test.time} phút | {test["Number of Question"]} câu hỏi | {test.students}</div>
+                  </div>
+                </div>
+                <div className="h-2/5 flex justify-center items-center">
+                  <div className="bg-white px-10 py-2 border border-main-color rounded-lg">
 
-                <a href="/#" className="">Làm bài</a>
-              </div>
-            </div>
-          </li>
-          ))}
+                    <a href="/#" className="">Làm bài</a>
+                  </div>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
         {/* -------------------------------------------------------------------------------------------------------------------- */}

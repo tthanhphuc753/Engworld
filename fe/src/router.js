@@ -1,15 +1,13 @@
 import { Route, Routes } from "react-router-dom"
 import { ROUTERS } from "./utils/router"
-import MasterLayout from "./pages/user/masterlayout.js"
+import MasterLayout from "./pages/user/masterLayout.js"
 import Login from "./pages/user/login"
 import Register from "./pages/user/register"
 import CourseInfo from "./pages/user/courseinfo.js"
 import Courses from "./pages/user/courses"
 import Test from "./pages/user/test"
-import Vocab from "./pages/user/vocab"
 import MasterLayoutAdmin from "./pages/admin/masterLayoutAdmin"
 import Tests from "./pages/user/tests"
-import Topic from "./pages/user/topic"
 import CourseLearn from "./pages/user/courseLearn.js"
 import Exercises from "./pages/user/Exercises.js"
 import Home from "./pages/user/home"
@@ -47,14 +45,6 @@ const renderRouter = ({ role }) => {
         {
             path: ROUTERS.USER.TESTS,
             element: <Tests />
-        },
-        {
-            path: ROUTERS.USER.VOCAB,
-            element: <Vocab />
-        },
-        {
-            path: ROUTERS.USER.TOPIC,
-            element: <Topic/>,
         },
         {
             path: ROUTERS.USER.COURSELEARN,

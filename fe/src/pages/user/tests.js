@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { clientGetAllTests } from "../../service";
+import { Link } from "react-router-dom";
 const tests = {
     ltest: [
         { "name": "test 1", "Number of Questions": 2, "time": 10, "students": 20 },
@@ -35,13 +37,25 @@ export default function Tests() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
-    const filteredList = listTest.filter(test => 
-        test.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+
     useEffect(() => {
-        setListTest(tests.ltest);
+
+        const fetchData = async () => {
+            try {
+                const response = await clientGetAllTests();
+                setListTest(response.data.content);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
         setTotalPages(Math.ceil(filteredList.length / itemsPerPage));
-    }, [filteredList]);
+    }, []);
+
+    const filteredList = listTest.filter(test =>
+        test.exerciseTitle.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -54,14 +68,14 @@ export default function Tests() {
 
     }
 
-    
+
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
         setCurrentPage(1); // Reset trang về 1 khi tìm kiếm
     };
     return (
         <div className="container">
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center my-5">
                 <input type="text" className="border rounded-tl-full rounded-bl-full w-1/3 p-2 focus:outline-none pl-4" placeholder="Type here..." onChange={handleSearchChange} />
                 <button className="bg-blue-500 text-white p-3 border pr-4 rounded-tr-full rounded-br-full " onClick={handlefind}>
                     <FaMagnifyingGlass />
@@ -73,14 +87,18 @@ export default function Tests() {
                         <li key={index} className="border border-inherit rounded-md h-fit">
                             <div className="mx-5 mt-3 mb-5">
                                 <div>
-                                    <h2 className="text-xl">{test.name}</h2>
+                                    <h2 className="text-lg">{test.exerciseTitle}</h2>
                                 </div>
-                                <div className="mb-2">
-                                    <div>{test.time} phút | {test["Number of Questions"]} câu hỏi | {test.students} học sinh</div>
+                                <div>
+                                    <p className="text-sm">{test.exerciseContent}</p>
                                 </div>
+                                <div className="mb-2 text-sm">
+                                    <div>{test.exerciseLevel} | {`40`} phút | {test.totalQuestion} câu hỏi | {`100`} học sinh</div>
+                                </div>
+
                                 <div className="h-2/5 flex justify-center items-center">
-                                    <div className="bg-white px-10 py-2 border border-main-color rounded-lg">
-                                        <a href="/#" className="">Làm bài</a>
+                                    <div className="bg-blue-400 text-white px-10 py-2 border border-main-color rounded-lg">
+                                        <Link to={`/test/${test.exerciseId}`} className="">Làm bài</Link>
                                     </div>
                                 </div>
                             </div>

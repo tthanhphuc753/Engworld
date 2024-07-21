@@ -1,18 +1,48 @@
-const course = {
-    id: 1,
-    title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-    image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-    price: '699.000đ',
-    originalPrice: '899.000đ',
-    discount: '-22%'
-}
+import { useState, useEffect } from "react";
+import { clientGetCourse, clientGetVideoByCourse } from "../../service";
+import { useParams } from "react-router-dom";
+// const course = {
+//     id: 1,
+//     title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//     image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//     price: '699.000đ',
+//     originalPrice: '899.000đ',
+//     discount: '-22%'
+// }
 export default function CourseInfo() {
+    const [course, setCourse] = useState({})
+    const [videos, setVideos] = useState([])
+    const { id } = useParams()
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await clientGetCourse(id);
+                setCourse(response.data);
+                const responseVideos = await clientGetVideoByCourse(id)
+                setVideos(responseVideos.data.content)
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+
+    }, []);
     return (
         <div className="m-5">
             {course && (
                 <div className="bg-center text-blue-400 mb-5" style={{ backgroundImage: `url(${course.image})` }}>
-                    <p className="text-xl ml-3">{course.title}</p>
-                    <button className="py-2 px-5 bg-blue-400 text-white ml-3">Đăng ký</button>
+                    <div className="flex items-center">
+                        <p className="text-xl ml-3 my-2 mr-3">{course.courseName}</p>
+                        <div className="course-prices text-sm text-orange-600">
+                            <span className="course-price">{`699.000đ`}</span>
+                            <span className="ml-1 course-listing-price">
+                                <s className="decoration-black">{`899.000đ`}</s>
+                            </span>
+                            <span className="ml-2 badge badge-danger badge-lg text-red-600">{`-22%`}</span>
+                        </div>
+                    </div>
+                    <button className="py-2 px-5 bg-blue-400 text-white ml-3 mb-2 rounded-full">Đăng ký</button>
                     <p className="italic ml-3">Dành cho các bạn từ band 4.0 trở lên target 7.0+ IELTS Reading General Training</p>
                     <p className="italic ml-3">10 giờ học video bài giảng và 150h clip chữa đề chi tiết các bộ đề thi chuẩn format thi thật</p>
                     <p className="italic ml-3">Nắm trọn 3000 từ vựng có xác suất 99% sẽ xuất hiện trong phần thi IELTS Reading General Training tổng hợp từ đề thi thật</p>
@@ -44,9 +74,12 @@ export default function CourseInfo() {
             <ul>
                 <li className="ml-3">
                     <p className="text-xl font-medium   ">Chương trình học</p>
-                    <p className="italic">Từ vựng</p>
-                    <p className="italic">Ngữ pháp</p>
-                    <p className="italic">Làm test</p>
+                    {videos.map((video,index) => (
+                        <video id="myVideo" controls className="m-5">
+                            <source src={`${video.videoPath}`} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ))}
                 </li>
             </ul>
         </div>

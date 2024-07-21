@@ -1,200 +1,213 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { FaMagnifyingGlass } from "react-icons/fa6";
-const courses = [
-    {
-        id: 1,
-        title: '1[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '2[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '2[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    {
-        id: 1,
-        title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
-        image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
-        price: '699.000đ',
-        originalPrice: '899.000đ',
-        discount: '-22%'
-    },
-    // Thêm nhiều khóa học khác ở đây
-    // ...
-];
+import { clientGetAllCourses } from '../../service';
+import { Link } from 'react-router-dom';
+// const courses = [
+//     {
+//         id: 1,
+//         title: '1[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '2[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '2[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     {
+//         id: 1,
+//         title: '[IELTS General Training] Intensive Reading: Từ Vựng - Chiến Lược Làm Bài - Chữa đề chi tiết',
+//         image: 'https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg',
+//         price: '699.000đ',
+//         originalPrice: '899.000đ',
+//         discount: '-22%'
+//     },
+//     // Thêm nhiều khóa học khác ở đây
+//     // ...
+// ];
 
 export default function Courses() {
     const itemsPerPage = 20; // Số item mỗi trang
-    const [listCourse, setListTest] = useState([]);
+    const [listCourse, setListCourses] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
-    const filteredList = courses.filter(course => 
-        course.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredList = listCourse.filter(course => 
+        course.courseName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     useEffect(() => {
-        setListTest(courses);
+        const fetchData = async () => {
+            try {
+                const response = await clientGetAllCourses();
+                setListCourses(response.data.content);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
         setTotalPages(Math.ceil(filteredList.length / itemsPerPage));
-    }, [filteredList]);
+    }, []);
+
+   
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -219,22 +232,22 @@ export default function Courses() {
             <div>
                 <ul className="m-5 grid grid-cols-5 gap-4">
                     {currentItems.map((course) => (
-                        <li key={course.id} className="flex flex-col w-56 bg-white text-main-color rounded-md cursor-pointer">
-                            <a href="/#">
+                        <li key={course.courseId} className="flex flex-col w-56 bg-white text-main-color rounded-md cursor-pointer">
+                            <Link to={`/courseinfo/${course.courseId}`}>
                                 <div className="">
-                                    <img className="w-full h-full rounded-md" src={course.image} alt="course" />
+                                    <img className="w-full h-full rounded-md" src={`https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-dep-nhat.jpg`} alt="course" />
                                 </div>
                                 <div className="text-sm">
-                                    <p>{course.title}</p>
+                                    <p>{course.courseName}</p>
                                 </div>
                                 <div className="course-prices text-sm text-orange-600">
-                                    <span className="course-price">{course.price}</span>
+                                    <span className="course-price">{`699.000đ`}</span>
                                     <span className="ml-1 course-listing-price">
-                                        <s className="decoration-black">{course.originalPrice}</s>
+                                        <s className="decoration-black">{`899.000đ`}</s>
                                     </span>
-                                    <span className="ml-2 badge badge-danger badge-lg text-red-600">{course.discount}</span>
+                                    <span className="ml-2 badge badge-danger badge-lg text-red-600">{`-22%`}</span>
                                 </div>
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>
