@@ -4,7 +4,8 @@ spring:
 
   datasource:
 
-    url: jdbc:sqlserver://localhost:1433;databaseName=ENGWORLD;encrypt=true;trustServerCertificate=true;
+    url: jdbc:sqlserver://localhost:1433;databaseName=ENGWORLD;useUnicode=true;characterEncoding=UTF-8;encrypt=true;trustServerCertificate=true;
+
     username: sa
     password: asdfgh2468
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -14,9 +15,16 @@ spring:
     show-sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       properties:
         hibernate.dialect: org.hibernate.dialect.SQLServer2012Dialect
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
 
   mail:
     host: smtp.gmail.com
@@ -36,3 +44,4 @@ server:
   servlet:
     session:
       store-type: none
+
