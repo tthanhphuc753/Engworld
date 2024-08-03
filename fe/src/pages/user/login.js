@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { authenticate } from "../../service";
 import Cookies from "universal-cookie";
 

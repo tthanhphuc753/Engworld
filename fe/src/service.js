@@ -1,4 +1,3 @@
-// Trong module api.js
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -8,7 +7,6 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-// Thêm một interceptor để thiết lập token trong tiêu đề Authorization
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
